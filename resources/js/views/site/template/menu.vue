@@ -29,8 +29,11 @@
                 <li class="nav-item">
                     <router-link :to="{name: 'site.contact'}" class="nav-link " href="">Contato</router-link>
                 </li>
-                <li class="nav-item">
+                <li v-if="isLoggedin === false" class="nav-item">
                     <router-link :to="{name: 'site.login'}" class="btn btn-success btn-lg">Entrar</router-link>
+                </li>
+                <li v-else class="nav-item">
+                    <a @click="redirectDashboard" class="btn btn-success btn-lg">Dashboard</a>
                 </li>
             </ul>
         </div>
@@ -39,7 +42,17 @@
 
 <script>
     export default {
-
+        data () {
+            return {
+                user: window.Laravel.user,
+                isLoggedin: window.Laravel.isLoggedin
+            }
+        },
+        methods: {
+            redirectDashboard: function () {
+                window.location.href = '/admin/dashboard';
+            }
+        }
     }
 </script>
 

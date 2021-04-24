@@ -5,13 +5,8 @@
                 <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
                 <router-link class="navbar-brand d-block d-md-none" :to="{name: 'admin.dashboard'}">
                     <b class="logo-icon">
-                        <img src="assets/images/logos/logo-icon.png" alt="homepage" class="dark-logo" />
-                        <img src="assets/images/logos/logo-light-icon.png" alt="homepage" class="light-logo" />
+                        <span style="font-size: 15pt;">Ipeúna<span class="text-success">Online</span></span>
                     </b>
-                    <span class="logo-text">
-                         <img src="assets/images/logos/logo-text.png" alt="homepage" class="dark-logo" />
-                         <img src="assets/images/logos/logo-light-text.png" class="light-logo" alt="homepage" />
-                    </span>
                 </router-link>
                 <div class="d-none d-md-block text-center">
                     <a class="sidebartoggler waves-effect waves-light d-flex align-items-center side-start" href="javascript:void(0)" data-sidebartype="mini-sidebar">
@@ -26,13 +21,8 @@
                     <li class="nav-item border-right">
                         <router-link class="nav-link navbar-brand d-none d-md-block" :to="{name: 'admin.dashboard'}">
                             <b class="logo-icon">
-                                <img src="assets/images/logos/logo-icon.png" alt="homepage" class="dark-logo" />
-                                <img src="assets/images/logos/logo-light-icon.png" alt="homepage" class="light-logo" />
+                                <span style="font-size: 15pt;">Ipeúna<span class="text-success">Online</span></span>
                             </b>
-                            <span class="logo-text">
-                                 <img src="assets/images/logos/logo-text.png" alt="homepage" class="dark-logo" />
-                                 <img src="assets/images/logos/logo-light-text.png" class="light-logo" alt="homepage" />
-                            </span>
                         </router-link>
                     </li>
                 </ul>

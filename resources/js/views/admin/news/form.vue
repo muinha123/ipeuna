@@ -9,8 +9,8 @@
                     <nav aria-label="breadcrumb" class="mt-2 float-md-right float-left">
                         <ol class="breadcrumb mb-0 justify-content-end p-0">
                             <li class="breadcrumb-item"><router-link :to="{name: 'admin.dashboard'}">Dashboard</router-link></li>
-                            <li class="breadcrumb-item active"><router-link :to="{name: 'admin.dashboard'}">Lista de Usuarios</router-link></li>
-                            <li class="breadcrumb-item active" aria-current="page">Criar Usuario</li>
+                            <li class="breadcrumb-item active"><router-link :to="{name: 'admin.dashboard'}">Lista de Notícias</router-link></li>
+                            <li class="breadcrumb-item active" aria-current="page">Criar Notícia</li>
                         </ol>
                     </nav>
                 </div>
@@ -103,7 +103,7 @@
         }),
         methods: {
             get: function () {
-                axios.get('/api/admin/user/' + this.$route.params.id).then(resp => {
+                axios.get('/api/user/' + this.$route.params.id).then(resp => {
                     if (resp.status === 200) {
                         this.users = resp.data.results;
                     }
@@ -140,7 +140,7 @@
 
                 axios({
                     method: 'post',
-                    url: this.users.id ? '/api/admin/user/' + this.users.id + '?_method=PUT' : '/api/admin/user/',
+                    url: this.users.id ? '/api/user/' + this.users.id + '?_method=PUT' : '/api/user/',
                     data: bodyFormData,
                     headers: {'Content-Type': 'multipart/form-data' }
                 }).then(function (resp) {

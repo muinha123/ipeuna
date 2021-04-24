@@ -23,32 +23,32 @@
                     </div>
                     <table id="demo-foo-row-toggler" class="table table-striped footable footable-1 breakpoint breakpoint-lg" data-toggle-column="first" style="">
                         <thead>
-                            <tr class="footable-header">
-                                <th>Nome</th>
-                                <th class="text-center">Email</th>
-                                <th class="text-center">Perfil Do Sístema</th>
-                                <th class="text-center">Ações</th>
-                            </tr>
+                        <tr class="footable-header">
+                            <th>Nome</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Perfil Do Sístema</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="Object.keys(results).length === 0">
-                                <td colspan="4">Não existem registros pra serem exibidos!!</td>
-                            </tr>
-                            <tr v-else v-for="result in results">
-                                <td >
-                                    <a href="">
-                                        <img src="/imagens/user-perfil-padrao.jpeg" alt="user" width="40" class="rounded-circle">
-                                        {{ result.name }}
-                                    </a>
-                                </td>
-                                <td  class="text-center">{{ result.email }}</td>
-                                <td  class="text-center">{{ result.profile }}</td>
-                                <td class="text-center">
-                                    <router-link :to="{ name: 'admin.user.update', params: {'id': result.id} }" class="btn btn-primary btn-circle btn-sm"><i class="fa fa-user"></i> </router-link>
-                                    <router-link :to="{ name: 'admin.user.update', params: {'id': result.id} }" class="btn btn-info btn-circle btn-sm"><i class="fa fa-edit"></i> </router-link>
-                                    <button @click.prevent="remove(result.id)" class="btn btn-danger btn-circle btn-sm"><i class="fa fa-trash"></i> </button>
-                                </td>
-                            </tr>
+                        <tr v-if="Object.keys(results).length === 0">
+                            <td colspan="4">Não existem registros pra serem exibidos!!</td>
+                        </tr>
+                        <tr v-else v-for="result in results">
+                            <td >
+                                <a href="">
+                                    <img src="/imagens/user-perfil-padrao.jpeg" alt="user" width="40" class="rounded-circle">
+                                    {{ result.name }}
+                                </a>
+                            </td>
+                            <td  class="text-center">{{ result.email }}</td>
+                            <td  class="text-center">{{ result.profile }}</td>
+                            <td class="text-center">
+                                <router-link :to="{ name: 'admin.user.update', params: {'id': result.id} }" class="btn btn-primary btn-circle btn-sm"><i class="fa fa-user"></i> </router-link>
+                                <router-link :to="{ name: 'admin.user.update', params: {'id': result.id} }" class="btn btn-info btn-circle btn-sm"><i class="fa fa-edit"></i> </router-link>
+                                <button @click.prevent="remove(result.id)" class="btn btn-danger btn-circle btn-sm"><i class="fa fa-trash"></i> </button>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -68,7 +68,7 @@
             get: function () {
                 let that = this;
 
-                axios.get('/api/admin/users').then(function (resp) {
+                axios.get('/api/users').then(function (resp) {
                     if (resp.status == 200) {
                         that.results = resp.data.results.data;
                     }
@@ -97,7 +97,7 @@
                         return;
                     }
 
-                    axios.delete('/api/admin/user/' + id).then(resp => {
+                    axios.delete('/api/user/' + id).then(resp => {
                         if (resp.status === 202) {
                             this.get();
 

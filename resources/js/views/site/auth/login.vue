@@ -42,41 +42,48 @@
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="card">
-                                    <form method="post">
-                                        <div class="imgcontainer">
-                                            <span>Ipeúna</span><span class="text-success">ONLINE</span>
-                                        </div>
-
-                                        <div class="row container">
-                                            <div class="form-group col-md-12">
-                                                <label for="email"><b>Email</b></label>
-                                                <input v-model="params.email" class="form-control" id="email" type="email" placeholder="email@email.com" name="email" required>
+                                    <ValidationObserver ref="form" v-slot="{ handleSubmit }">
+                                        <form action="">
+                                            <div class="imgcontainer">
+                                                <span>Ipeúna</span><span class="text-success">ONLINE</span>
                                             </div>
 
-                                            <div class="form-group col-md-12 mt-4">
-                                                <label for="password"><b>Senha</b></label>
-                                                <input v-model="params.password" class="form-control" id="password" type="password" placeholder="Entre com a senha" name="password" required>
-                                            </div>
-
-                                            <div class="col-md-12 mt-4">
-                                                <button @click.prevent="login" class="btn btn-success btn-submit" type="submit">Entrar</button>
-                                                <router-link :to="{name: 'site.register'}" class="btn btn-primary btn-submit mt-1">Cadastre-se</router-link>
-                                            </div>
-
-                                            <div class="col-md-12 mt-4">
-                                                <div class="row">
-                                                    <div class="col-md-8">
-                                                        <label>
-                                                            <input type="checkbox" checked="checked" name="remember"> Lembrar-me
-                                                        </label>
+                                            <div class="row container">
+                                                <validation-provider rules="required|email" v-slot="{ errors }">
+                                                    <div class="form-group col-md-12">
+                                                        <label for="email"><b>Email</b></label>
+                                                        <input id="email" name="email" :class="errors[0] ? 'error' : ''" v-model="params.email" type="text" class="form-control form-control-lg" placeholder="Digite seu email" aria-label="Username" aria-describedby="basic-addon1">
+                                                        <span class="error">{{ errors[0] }}</span>
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <span>Perdeu a <a href="#">Senha?</a></span>
+                                                </validation-provider>
+                                                <validation-provider rules="required" v-slot="{ errors }">
+                                                    <div class="form-group col-md-12 mt-4">
+                                                        <label for="password"><b>Senha</b></label>
+                                                        <input :class="errors[0] ? 'error' : ''" v-model="params.password" class="form-control form-control-lg" id="password" type="password" placeholder="Entre com a senha" name="password" required>
+                                                        <span class="error">{{ errors[0] }}</span>
+                                                    </div>
+                                                </validation-provider>
+
+                                                <div class="col-md-12 mt-4">
+                                                    <button @click.prevent="handleSubmit(login)" class="btn btn-success btn-submit" type="submit">Entrar</button>
+                                                    <router-link :to="{name: 'site.register'}" class="btn btn-primary btn-submit mt-1">Cadastre-se</router-link>
+                                                </div>
+
+                                                <div class="col-md-12 mt-4">
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <label>
+                                                                <input type="checkbox" checked="checked" name="remember"> Lembrar-me
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span>Perdeu a <a href="#">Senha?</a></span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </ValidationObserver>
                                 </div>
                             </div>
                             <div class="col-md-5 section-md-t3">
@@ -160,12 +167,21 @@
 
 <script>
     import Vue from 'vue';
+    import VueToast from 'vue-toast-notification';
     import 'vue-toast-notification/dist/theme-sugar.css';
     import axios from 'axios';
+    import { ValidationProvider, ValidationObserver } from 'vee-validate';
+    import InputErrorLaravel from '../../../components/error/InputErrorLaravel';
 
     axios.defaults.withCredentials = true;
+    Vue.use(VueToast);
 
     export default {
+        components: {
+            ValidationProvider,
+            InputErrorLaravel,
+            ValidationObserver
+        },
         data: () => ({
             params: {
                 email: '',
@@ -184,7 +200,7 @@
                         password: this.params.password
                     }).then(function (resp) {
                         if (resp.status === 200) {
-                            window.location.href = '/dashboard';
+                            window.location.href = '/admin/dashboard';
                             return;
                         }
                     }).catch(function (error) {

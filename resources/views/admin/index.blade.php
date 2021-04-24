@@ -10,7 +10,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
-        <title>Ample admin Template - The Ultimate Multipurpose admin template</title>
+        <title>Ipeúna Online Admnistração</title>
         <link href="../../assets/extra-libs/jvector/jvector.css" rel="stylesheet" />
         <link href="../../assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
         <link href="../../assets/libs/morris.js/morris.css" rel="stylesheet">

@@ -31,18 +31,22 @@ class AddForeignKeyInUsersSystemProfile extends Migration
         ]);
 
         SystemProfile::create([
-            'profile' => 'Funcionário'
+            'profile' => 'Adm Turismo'
         ]);
 
         SystemProfile::create([
             'profile' => 'Cliente'
         ]);
 
+        SystemProfile::create([
+            'profile' => 'Repórter'
+        ]);
+
         User::create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
+            'name' => 'Samuel Sanches (Muinha)',
+            'email' => 'muinha123@gmail.com',
             'system_profile_id' => 1,
-            'password' => Hash::make('123mudar')
+            'password' => Hash::make('MU1122468')
         ]);
     }
 

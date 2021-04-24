@@ -1,7 +1,7 @@
 require('./bootstrap');
 
 import Vue from 'vue';
-import App from './views/layout';
+import App from './views/admin/template/layout';
 import Routes from './router';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';

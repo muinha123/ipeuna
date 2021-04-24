@@ -24,6 +24,7 @@
 
     <!-- Template Main CSS File -->
     <link href="/site/assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/custon-style.css') }}">
 
     <!-- =======================================================
     * Template Name: EstateAgency - v4.0.1
@@ -41,6 +42,21 @@
 <div id="siteLayoutVue">
     <app></app>
 </div>
+
+@if (\Illuminate\Support\Facades\Auth::check())
+    <script>
+        window.Laravel = {!!json_encode([
+               'isLoggedin' => true,
+               'user' => Auth::user()
+           ])!!}
+    </script>
+@else
+    <script>
+        window.Laravel = {!!json_encode([
+                'isLoggedin' => false
+            ])!!}
+    </script>
+@endif
 
 <div id="preloader"></div>
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

@@ -31,24 +31,30 @@
                     </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                            <i class="fab fa-product-hunt"></i>
-                            <span class="hide-menu">Produtos</span>
+                            <i class="mdi mdi-newspaper"></i>
+                            <span class="hide-menu">Noticias</span>
                             <span class="badge badge-inverse badge-pill ml-auto mr-3 font-medium px-2 py-1">6</span>
                         </a>
                         <ul aria-expanded="false" class="collapse  first-level">
                             <li class="sidebar-item">
-                                <a href="index.html" class="sidebar-link">
-                                    <i class="fab fa-product-hunt"></i>
-                                    <span class="hide-menu"> Lista de Produtos </span>
-                                </a>
+                                <router-link :to="{name: 'admin.news'}" class="sidebar-link">
+                                    <i class="mdi mdi-newspaper"></i>
+                                    <span class="hide-menu"> Lista de Noticias </span>
+                                </router-link>
                             </li>
                             <li class="sidebar-item">
-                                <a href="index.html" class="sidebar-link">
+                                <router-link :to="{name: 'admin.news.create'}" class="sidebar-link">
                                     <i class="fas fa-plus"></i>
-                                    <span class="hide-menu"> Criar Produto </span>
-                                </a>
+                                    <span class="hide-menu"> Criar Noticia </span>
+                                </router-link>
                             </li>
                         </ul>
+                    </li>
+                    <li class="sidebar-item">
+                        <a style="cursor: pointer" @click.prevent="siteIndex" class="sidebar-link">
+                            <i class="mdi mdi-backburger"></i>
+                            <span class="hide-menu"> Voltar ao Site </span>
+                        </a>
                     </li>
                 </ul>
             </nav>
@@ -58,7 +64,11 @@
 
 <script>
     export default {
-
+        methods: {
+            siteIndex: function () {
+                window.location.href = '/';
+            }
+        }
     }
 </script>
 
