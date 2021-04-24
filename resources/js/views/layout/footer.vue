@@ -1,0 +1,15 @@
+<template>
+    <footer class="footer text-center">
+        All Rights Reserved by Ample admin. Designed and Developed by
+        <a href="https://wrappixel.com">WrapPixel</a>.
+    </footer>
+</template>
+
+<script>
+    export default {
+    }
+</script>
+
+<style scoped>
+
+</style>

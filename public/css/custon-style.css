@@ -1,0 +1,10 @@
+@media (max-width: 576px) {
+    img {
+        max-height: 220px;
+    }
+}
+
+.error {
+    color: red;
+    border-color: red;
+}
