@@ -25,13 +25,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
-    // users
-    Route::get('admin/users', [UserController::class, 'getAll'])->name('admin.users');
-    Route::post('admin/user', [UserController::class, 'save'])->name('admin.users.save');
-    Route::get('admin/user/{id}', [UserController::class, 'get'])->name('admin.users.get');
-    Route::put('admin/user/{id}', [UserController::class, 'update'])->name('admin.users.update');
-    Route::delete('admin/user/{id}', [UserController::class, 'delete'])->name('admin.users.delete');
+    Route::group(['prefix' => 'admin'], function () {
+        // users
+        Route::get('users', [UserController::class, 'getAll'])->name('admin.users');
+        Route::post('user', [UserController::class, 'save'])->name('admin.users.save');
+        Route::get('user/{id}', [UserController::class, 'get'])->name('admin.users.get');
+        Route::put('user/{id}', [UserController::class, 'update'])->name('admin.users.update');
+        Route::delete('user/{id}', [UserController::class, 'delete'])->name('admin.users.delete');
 
-    // system profile
-    Route::get('system/profile', [SystemProfileController::class, 'getAll'])->name('admin.system.profile');
+        // system profile
+        Route::get('system-profile', [SystemProfileController::class, 'getAll'])->name('admin.system.profile');
+        Route::post('system-profile', [SystemProfileController::class, 'save'])->name('admin.system.profile.save');
+        Route::get('system-profile/{id}', [SystemProfileController::class, 'get'])->name('admin.system.profile.get');
+        Route::put('system-profile/{id}', [SystemProfileController::class, 'update'])->name('admin.system.profile.update');
+        Route::delete('system-profile/{id}', [SystemProfileController::class, 'delete'])->name('admin.system.profile.delete');
+    });
+
 });

@@ -110,7 +110,7 @@
                 }).catch(errors => console.log(errors));
             },
             getAllSystemProfile: function () {
-                axios.get('/api/system/profile/').then(resp => {
+                axios.get('/api/admin/system-profile').then(resp => {
                     if (resp.status === 200) {
                         this.systemProfile = resp.data.results;
                     }

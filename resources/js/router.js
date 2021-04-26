@@ -21,6 +21,10 @@ import adminUsersList from "./views/admin/users/list";
 import adminUsersForm from "./views/admin/users/form";
 import adminNewsList from "./views/admin/news/list";
 import adminNewsForm from "./views/admin/news/form";
+import adminSystemProfileList from "./views/admin/system-profile/list";
+import adminSystemProfileForm from "./views/admin/system-profile/form";
+import adminTourismList from "./views/admin/tourism/list";
+import adminTourismForm from "./views/admin/tourism/form";
 
 const router = new VueRouter({
     mode: 'history',
@@ -112,6 +116,36 @@ const router = new VueRouter({
             path: '/admin/news/:id',
             name: 'admin.news.update',
             component: adminNewsForm,
+        },
+        {
+            path: '/admin/system-profile/list',
+            name: 'admin.system.profile',
+            component: adminSystemProfileList,
+        },
+        {
+            path: '/admin/system-profile',
+            name: 'admin.system.profile.create',
+            component: adminSystemProfileForm,
+        },
+        {
+            path: '/admin/system-profile/:id',
+            name: 'admin.system.profile.update',
+            component: adminSystemProfileForm,
+        },
+        {
+            path: '/admin/tourism/list',
+            name: 'admin.tourism',
+            component: adminTourismList,
+        },
+        {
+            path: '/admin/tourism',
+            name: 'admin.tourism.create',
+            component: adminTourismForm,
+        },
+        {
+            path: '/admin/tourism/:id',
+            name: 'admin.tourism.update',
+            component: adminTourismForm,
         }
     ]
 });

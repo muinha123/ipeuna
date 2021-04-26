@@ -3,13 +3,13 @@
         <div class="page-breadcrumb">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-xs-12 align-self-center">
-                    <h5 class="font-medium text-uppercase mb-0">Lista de Notícias</h5>
+                    <h5 class="font-medium text-uppercase mb-0">Lista de Turismo</h5>
                 </div>
                 <div class="col-lg-9 col-md-8 col-xs-12 align-self-center">
                     <nav aria-label="breadcrumb" class="mt-2 float-md-right float-left">
                         <ol class="breadcrumb mb-0 justify-content-end p-0">
-                            <li class="breadcrumb-item"><a href="">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Lista de Notícias</li>
+                            <li class="breadcrumb-item"><router-link :to="{ name: 'admin.dashboard' }">Dashboard</router-link></li>
+                            <li class="breadcrumb-item active" aria-current="page">Lista de Turismo</li>
                         </ol>
                     </nav>
                 </div>
@@ -19,7 +19,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <div style="margin: 5px 0px 35px 0px;">
-                        <router-link :to="{name: 'admin.news.create'}" class="btn btn-success text-white">Criar Notícia<i style="margin-left: 10px;" class="fa fa-plus"></i> </router-link>
+                        <router-link :to="{name: 'admin.tourism.create'}" class="btn btn-success text-white">Criar Turismo<i style="margin-left: 10px;" class="fa fa-plus"></i> </router-link>
                     </div>
                     <table id="demo-foo-row-toggler" class="table table-striped footable footable-1 breakpoint breakpoint-lg" data-toggle-column="first" style="">
                         <thead>
@@ -68,7 +68,7 @@
             get: function () {
                 let that = this;
 
-                axios.get('/api/users').then(function (resp) {
+                axios.get('/api/admin/users').then(function (resp) {
                     if (resp.status == 200) {
                         that.results = resp.data.results.data;
                     }
@@ -97,7 +97,7 @@
                         return;
                     }
 
-                    axios.delete('/api/user/' + id).then(resp => {
+                    axios.delete('/api/admin/user/' + id).then(resp => {
                         if (resp.status === 202) {
                             this.get();
 

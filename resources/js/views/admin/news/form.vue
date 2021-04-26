@@ -3,13 +3,13 @@
         <div class="page-breadcrumb">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-xs-12 align-self-center">
-                    <h5 class="font-medium text-uppercase mb-0">Lista de Usuarios</h5>
+                    <h5 class="font-medium text-uppercase mb-0">Criar Notícia</h5>
                 </div>
                 <div class="col-lg-9 col-md-8 col-xs-12 align-self-center">
                     <nav aria-label="breadcrumb" class="mt-2 float-md-right float-left">
                         <ol class="breadcrumb mb-0 justify-content-end p-0">
                             <li class="breadcrumb-item"><router-link :to="{name: 'admin.dashboard'}">Dashboard</router-link></li>
-                            <li class="breadcrumb-item active"><router-link :to="{name: 'admin.dashboard'}">Lista de Notícias</router-link></li>
+                            <li class="breadcrumb-item active"><router-link :to="{name: 'admin.news.list'}">Lista de Notícias</router-link></li>
                             <li class="breadcrumb-item active" aria-current="page">Criar Notícia</li>
                         </ol>
                     </nav>
@@ -25,12 +25,12 @@
                             <validation-provider rules="image" ref="provider" v-slot="{ validate, errors }">
                                 <div class="el-element-overlay">
                                     <div class="el-card-item">
-                                        <img id="image_user" style="height: 400px;" class="img-thumbnail" src="/imagens/user-perfil-padrao.jpeg" alt="user">
+                                        <img id="image_news" style="height: 400px;" class="img-thumbnail" src="/imagens/notfound.png" alt="user">
                                     </div>
                                 </div>
                                 <div style="width: 100%; word-wrap: break-word;" class="btn btn-info waves-effect waves-light">
-                                    <span>Carregar Imagem Perfil</span>
-                                    <input style="width: 100%; white-space: normal;" @change="handleFileChange" :class="errors[0] ? 'error' : ''" name="image" id="image" type="file" class="upload">
+                                    <span>Carregar Imagem Principal</span>
+                                    <input style="width: 100%; white-space: normal;" @change="handleFileChange" :class="errors[0] ? 'error' : ''" name="main_image" id="main_image" type="file" class="upload">
                                 </div>
                                 <span class="error">{{ errors[0] }}</span>
                             </validation-provider>
@@ -38,38 +38,36 @@
                         <div class="col-md-6 mt-3">
                             <validation-provider rules="required" v-slot="{ errors }">
                                 <div class="form-group">
-                                    <label for="name">Nome</label>
-                                    <input v-model="users.name" :class="errors[0] ? 'error' : ''" id="name" name="name" type="text" class="form-control" placeholder="Digite seu nome">
+                                    <label for="title"><strong>Título</strong></label>
+                                    <textarea rows="7" v-model="news.title" :class="errors[0] ? 'error' : ''" id="title" name="title" class="form-control" placeholder="Digite o título"></textarea>
                                     <span class="error">{{ errors[0] }}</span>
                                 </div>
                             </validation-provider>
                             <validation-provider rules="required|email" v-slot="{ errors }">
                                 <div class="form-group">
-                                    <label for="email">E-mail</label>
-                                    <input v-model="users.email" :class="errors[0] ? 'error' : ''" id="email" name="email" type="email" class="form-control" placeholder="Digite seu e-mail">
+                                    <label for="subtitle"><strong>Sub-Título</strong></label>
+                                    <textarea rows="7" v-model="news.subtitle" :class="errors[0] ? 'error' : ''" id="subtitle" name="subtitle" class="form-control" placeholder="Digite o Sub-Título"></textarea>
                                     <span class="error">{{ errors[0] }}</span>
                                 </div>
                             </validation-provider>
                             <validation-provider rules="required" v-slot="{ errors }">
                                 <div class="form-group">
-                                    <label for="system_profile">Perfil do Sístema</label>
-                                    <select v-model="users.system_profile_id" class="form-control" name="system_profile_id" id="system_profile">
-                                        <option :value="sp.id" v-for="sp in systemProfile">{{ sp.profile }}</option>
+                                    <label for="category"><strong>Categoria</strong></label>
+                                    <select v-model="news.category" class="form-control" name="category" id="category">
+                                        <option :value="news.category" v-for="sp in systemProfile">{{ sp.profile }}</option>
                                     </select>
                                     <span class="error">{{ errors[0] }}</span>
                                 </div>
                             </validation-provider>
-                            <validation-provider v-if="!users.id" rules="required" v-slot="{ errors }">
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input v-model="users.password" :class="errors[0] ? 'error' : ''" id="password" name="password" type="password" class="form-control" placeholder="Digite seu password">
+                        </div>
+                        <div class="col-md-12">
+                            <validation-provider rules="required|email" v-slot="{ errors }">
+                                <div class="form-group col-md-12">
+                                    <label for="descryption"><strong>Descrição da noticia</strong></label>
+                                    <textarea rows="10" v-model="news.descryption" :class="errors[0] ? 'error' : ''" id="descryption" name="descryption" class="form-control" placeholder="Digite a descrição da notícia"></textarea>
                                     <span class="error">{{ errors[0] }}</span>
                                 </div>
                             </validation-provider>
-                            <div v-else class="form-group">
-                                <label for="password">Password</label>
-                                <input v-model="users.password" name="password" type="password" class="form-control" placeholder="**************">
-                            </div>
                         </div>
                         <div class="col-md-12 form-group mt-3">
                             <router-link :to="{name: 'admin.users'}" class="btn btn-dark">Cancelar</router-link>
@@ -94,7 +92,7 @@
             ValidationObserver
         },
         data: () => ({
-            users: {
+            news: {
                 image: {},
                 id: ''
             },
@@ -105,7 +103,7 @@
             get: function () {
                 axios.get('/api/user/' + this.$route.params.id).then(resp => {
                     if (resp.status === 200) {
-                        this.users = resp.data.results;
+                        this.news = resp.data.results;
                     }
                 }).catch(errors => console.log(errors));
             },
@@ -120,10 +118,10 @@
                 const { valid } = await this.$refs.provider.validate(e);
 
                 if (valid) {
-                    this.users.image = e.target.files[0];
+                    this.news.image = e.target.files[0];
                     const fileReader = new FileReader();
                     fileReader.onloadend = function () {
-                        $('#image_user').attr('src', fileReader.result);
+                        $('#image_news').attr('src', fileReader.result);
                     }
 
                     fileReader.readAsDataURL(e.target.files[0]);
@@ -134,13 +132,13 @@
                 let that = this;
                 let bodyFormData = new FormData();
 
-                $.each(this.users, function (key, value) {
+                $.each(this.news, function (key, value) {
                     bodyFormData.append(key, value);
                 });
 
                 axios({
                     method: 'post',
-                    url: this.users.id ? '/api/user/' + this.users.id + '?_method=PUT' : '/api/user/',
+                    url: this.news.id ? '/api/user/' + this.users.id + '?_method=PUT' : '/api/user/',
                     data: bodyFormData,
                     headers: {'Content-Type': 'multipart/form-data' }
                 }).then(function (resp) {
@@ -182,5 +180,11 @@
 </script>
 
 <style scoped>
-
+    .card {
+        padding: 20px;
+        background: #393c4a;
+    }
+    .card label {
+        color: white;
+    }
 </style>

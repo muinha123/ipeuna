@@ -31,11 +31,11 @@ class AddForeignKeyInUsersSystemProfile extends Migration
         ]);
 
         SystemProfile::create([
-            'profile' => 'Adm Turismo'
+            'profile' => 'Admnistrador do Turismo'
         ]);
 
         SystemProfile::create([
-            'profile' => 'Cliente'
+            'profile' => 'Usuário'
         ]);
 
         SystemProfile::create([

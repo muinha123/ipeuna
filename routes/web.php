@@ -21,6 +21,8 @@ Route::middleware('auth:sanctum')->get('/', function () {
 });
 
 Route::get('/', [SiteIndexController::class, 'index'])->name('site.index');
+Route::get('/{any}', [SiteIndexController::class, 'index'])->where('any', '^(?!api).*$')->name('site.index');
+
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -29,5 +31,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     // dashboard
-    Route::get('/{any}', [DashboardController::class, 'index'])->where('any', '^(?!api).*$')->name('admin.dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 });

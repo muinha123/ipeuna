@@ -51,6 +51,40 @@
                         </ul>
                     </li>
                     <li class="sidebar-item">
+                        <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                            <i class="fas fa-tree"></i>
+                            <span class="hide-menu">Turismo</span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse  first-level">
+                            <li class="sidebar-item">
+                                <router-link :to="{name: 'admin.tourism'}" class="sidebar-link">
+                                    <i class="fab fa-pagelines"></i>
+                                    <span class="hide-menu"> Listagem de Turismo </span>
+                                </router-link>
+                            </li>
+                            <li class="sidebar-item">
+                                <router-link :to="{name: 'admin.tourism.create'}" class="sidebar-link">
+                                    <i class="fas fa-plus"></i>
+                                    <span class="hide-menu"> Criar Turismo </span>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                            <i class="mdi mdi-settings"></i>
+                            <span class="hide-menu">Configurações</span>
+                        </a>
+                        <ul aria-expanded="false" class="collapse  first-level">
+                            <li class="sidebar-item">
+                                <router-link :to="{name: 'admin.system.profile'}" class="sidebar-link">
+                                    <i class="mdi mdi-format-list-bulleted"></i>
+                                    <span class="hide-menu"> Lista de Perfis do Sistema </span>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item">
                         <a style="cursor: pointer" @click.prevent="siteIndex" class="sidebar-link">
                             <i class="mdi mdi-backburger"></i>
                             <span class="hide-menu"> Voltar ao Site </span>
