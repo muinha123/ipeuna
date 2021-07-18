@@ -150,4 +150,18 @@ const router = new VueRouter({
     ]
 });
 
+router.beforeEach((to, from, next) => {
+    if (!window.Laravel.isLoggedin) {
+        if (to.name.match(/admin.*/)) {
+            window.location.href = '/';
+
+            return;
+        }
+
+        return next();
+    }
+
+    return next();
+});
+
 export default router;

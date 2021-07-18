@@ -9,6 +9,8 @@ class SystemProfile extends Model
 {
     use HasFactory;
 
+    const SYSTEM_PROFILE_USER = 3;
+
     protected $fillable = [
         'profile'
     ];

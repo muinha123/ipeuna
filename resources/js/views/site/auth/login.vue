@@ -49,17 +49,17 @@
                                             </div>
 
                                             <div class="row container">
-                                                <validation-provider rules="required|email" v-slot="{ errors }">
+                                                <validation-provider vid="email" rules="required|email" v-slot="{ errors }">
                                                     <div class="form-group col-md-12">
                                                         <label for="email"><b>Email</b></label>
                                                         <input id="email" name="email" :class="errors[0] ? 'error' : ''" v-model="params.email" type="text" class="form-control form-control-lg" placeholder="Digite seu email" aria-label="Username" aria-describedby="basic-addon1">
                                                         <span class="error">{{ errors[0] }}</span>
                                                     </div>
                                                 </validation-provider>
-                                                <validation-provider rules="required" v-slot="{ errors }">
+                                                <validation-provider vid="password" v-slot="{ errors }">
                                                     <div class="form-group col-md-12 mt-4">
                                                         <label for="password"><b>Senha</b></label>
-                                                        <input :class="errors[0] ? 'error' : ''" v-model="params.password" class="form-control form-control-lg" id="password" type="password" placeholder="Entre com a senha" name="password" required>
+                                                        <input :class="errors[0] ? 'error' : ''" v-model="params.password" class="form-control form-control-lg" id="password" type="password" placeholder="Entre com a senha" name="password">
                                                         <span class="error">{{ errors[0] }}</span>
                                                     </div>
                                                 </validation-provider>
@@ -204,10 +204,11 @@
                             return;
                         }
                     }).catch(function (error) {
-                        that.params.password = "";
-                        if (error.response.status == 422) {
-                            that.errors = error.response.data.errors;
+                        if (error.response.data.errors) {
+                            let e = error.response.data.errors;
+                            that.$refs.form.setErrors(e);
                         }
+
                         Vue.$toast.open({
                             message: 'Dados de acesso inválidos!',
                             type: 'error',
