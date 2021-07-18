@@ -42,33 +42,42 @@
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="card">
-                                    <form method="post">
+                                    <ValidationObserver ref="form" v-slot="{ handleSubmit }">
                                         <div class="imgcontainer">
                                             <span>Ipeúna</span><span class="text-success">ONLINE</span>
                                         </div>
 
                                         <div class="row container">
-                                            <div class="form-group col-md-12">
-                                                <label for="name"><b>Nome</b></label>
-                                                <input class="form-control" id="name" type="text" placeholder="Digite seu nome" name="name" required>
-                                            </div>
+                                            <validation-provider vid="name" rules="required" v-slot="{ errors }">
+                                                <div class="form-group col-md-12">
+                                                    <label for="name"><b>Nome</b></label>
+                                                    <input :class="errors[0] ? 'error' : ''" v-model="form.name" class="form-control" id="name" type="text" placeholder="Digite seu nome" name="name" required>
+                                                    <span class="error">{{ errors[0] }}</span>
+                                                </div>
+                                            </validation-provider>
 
-                                            <div class="form-group col-md-12">
-                                                <label for="email"><b>Email</b></label>
-                                                <input class="form-control" id="email" type="email" placeholder="email@email.com" name="email" required>
-                                            </div>
+                                            <validation-provider vid="email" rules="required" v-slot="{ errors }">
+                                                <div class="form-group col-md-12 mt-2">
+                                                    <label for="email"><b>Email</b></label>
+                                                    <input :class="errors[0] ? 'error' : ''" v-model="form.email" class="form-control" id="email" type="email" placeholder="email@email.com" name="email" required>
+                                                    <span class="error">{{ errors[0] }}</span>
+                                                </div>
+                                            </validation-provider>
 
-                                            <div class="form-group col-md-12 mt-4">
-                                                <label for="password"><b>Senha</b></label>
-                                                <input class="form-control" id="password" type="password" placeholder="Entre com a senha" name="password" required>
-                                            </div>
+                                            <validation-provider vid="password" rules="required" v-slot="{ errors }">
+                                                <div class="form-group col-md-12 mt-2">
+                                                    <label for="password"><b>Senha</b></label>
+                                                    <input :class="errors[0] ? 'error' : ''" v-model="form.password" class="form-control" id="password" type="password" placeholder="Entre com a senha" name="password" required>
+                                                    <span class="error">{{ errors[0] }}</span>
+                                                </div>
+                                            </validation-provider>
 
                                             <div class="col-md-12 mt-4">
                                                 <router-link :to="{name: 'site.login'}" class="btn btn-danger btn-submit">Voltar</router-link>
-                                                <button class="btn btn-success btn-submit" type="submit">Cadastrar</button>
+                                                <button @click.prevent="handleSubmit(save)" class="btn btn-success btn-submit" type="submit">Cadastrar</button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </ValidationObserver>
                                 </div>
                             </div>
                             <div class="col-md-5 section-md-t3">
@@ -151,8 +160,51 @@
 </template>
 
 <script>
-    export default {
+    import Vue from "vue";
+    import axios from "axios";
+    import { ValidationProvider, ValidationObserver } from 'vee-validate';
 
+
+    export default {
+        data: () => ({
+            form: {
+                name: '',
+                email: '',
+                password: ''
+            }
+        }),
+        components: {
+            ValidationProvider,
+            ValidationObserver
+        },
+        methods: {
+            save: function () {
+                let that = this;
+
+                axios.post('api/site/user', this.form)
+                    .then(function (resp) {
+                        if (resp.status == 201) {
+                            window.location.href = '/admin/dashboard';
+                            return;
+                        }
+
+                        return;
+                    })
+                    .catch(function (error) {
+                        if (error.response.data.errors) {
+                            let e = error.response.data.errors;
+                            that.$refs.form.setErrors(e);
+                        }
+
+                        Vue.$toast.open({
+                            message: 'Aconteceu algum erro!',
+                            type: 'error',
+                            position: 'top-right',
+                            duration: 7000
+                        });
+                    });
+            }
+        }
     }
 </script>
 

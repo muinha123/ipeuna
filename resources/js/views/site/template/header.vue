@@ -8,7 +8,7 @@
                     <span></span>
                     <span></span>
                 </button>
-                <a class="navbar-brand text-brand" href="index.html">Ipeúna<span class="color-b">ONLINE</span></a>
+                <router-link class="navbar-brand text-brand" :to="{name:'site.index'}">Ipeúna<span class="color-b">ONLINE</span></router-link>
 
                 <slot></slot>
 

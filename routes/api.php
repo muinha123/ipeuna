@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SystemProfileController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,12 @@ Route::post('login', [LoginController::class, 'authenticate'])->name('authentica
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::group(['prefix' => 'site', 'namespace' => 'Auth'], function () {
+    //users
+    Route::post('user', [RegisterController::class, 'register'])->name('site.users.save');
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {

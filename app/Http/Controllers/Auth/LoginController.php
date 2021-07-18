@@ -3,11 +3,26 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\Auth\LoginRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    /**
+     * @var LoginRepository
+     */
+    protected $repository;
+
+    /**
+     * LoginController constructor.
+     * @param LoginRepository $loginRepository
+     */
+    public function __construct(LoginRepository $loginRepository)
+    {
+        $this->repository = $loginRepository;
+    }
+
     public function login()
     {
         return view('site.index');
@@ -15,24 +30,28 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required'
+            ]);
 
-        $credentials = $request->only('email', 'password');
+            $result = $this->repository->login($request);
 
-        if (Auth::attempt($credentials)) {
+            if (!empty($result)) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Login successful',
+                ], 200);
+            }
+
             return response()->json([
-                'success' => true,
-                'message' => 'Login successful',
-            ], 200);
+                'success' => false,
+                'message' => 'Dados de acesso inválidos'
+            ], 401);
+        } catch (\Exception $e) {
+            throw $e;
         }
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Dados de acesso inválidos'
-        ], 401);
     }
 
     public function logout()
