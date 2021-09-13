@@ -11,3 +11,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+.idea/almoxarifado.iml
+.idea/php.xml
+google-cloud-key.json
+composer.lock

@@ -86,6 +86,7 @@
     import Vue from 'vue';
     import { ValidationProvider, ValidationObserver } from 'vee-validate';
     import InputErrorLaravel from '../../../components/error/InputErrorLaravel';
+    import Utils from '../../../helpers/utils'
 
     export default {
         components: {
@@ -95,7 +96,10 @@
         },
         data: () => ({
             users: {
-                image: {},
+                image: {
+                    source: "",
+                    extension: ""
+                },
                 id: ''
             },
             systemProfile: {},
@@ -120,54 +124,51 @@
                 const { valid } = await this.$refs.provider.validate(e);
 
                 if (valid) {
-                    this.users.image = e.target.files[0];
+                    let image = e.target.files[0];
+                    let ext = Utils.fileExtVerify(image, null, this);
+
+                    if (ext == '') {
+                        return;
+                    }
+
                     const fileReader = new FileReader();
                     fileReader.onloadend = function () {
                         $('#image_user').attr('src', fileReader.result);
                     }
 
-                    fileReader.readAsDataURL(e.target.files[0]);
-                    console.log('Uploaded the file...');
+                    fileReader.readAsDataURL(image);
+
+                    const file = await Utils.convertFileToBase64(image);
+
+                    this.users.image.source = file.source;
+                    this.users.image.extension = ext;
                 }
             },
             save: function () {
                 let that = this;
-                let bodyFormData = new FormData();
-
-                $.each(this.users, function (key, value) {
-                    bodyFormData.append(key, value);
-                });
 
                 axios({
                     method: 'post',
                     url: this.users.id ? '/api/admin/user/' + this.users.id + '?_method=PUT' : '/api/admin/user/',
-                    data: bodyFormData,
-                    headers: {'Content-Type': 'multipart/form-data' }
+                    data: this.users
                 }).then(function (resp) {
                     if (resp.status < 300) {
                         that.$router.go(-1);
-                        Vue.$toast.open({
-                            message: 'Dados Salvos Com Sucesso!',
-                            type: 'success',
-                        });
+                        Utils.sucess(that);
 
                         return;
                     }
 
-                    Vue.$toast.open({
-                        message: 'Erro ao Salvar os Dados!',
-                        type: 'error',
-                    });
+                    Utils.error(that, 'Erro ao salvar usuario!')
 
                     return;
                 }).catch(errors => {
                     if (errors.response.status == 422) {
                         that.errors = errors.response.data.errors;
                     }
-                    Vue.$toast.open({
-                        message: 'Dados de acesso inválidos!',
-                        type: 'error',
-                    });
+
+                    Utils.error(that)
+
                 });
             }
         },

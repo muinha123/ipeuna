@@ -9,9 +9,7 @@ import VueSwal from 'vue-swal';
 
 require('./utilities/validate');
 Vue.use(VueSwal)
-Vue.use(VueToast, {
-    position: 'top-right'
-});
+Vue.use(VueToast);
 
 const app = new Vue({
     el: '#main-wrapper',
