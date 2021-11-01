@@ -54,7 +54,7 @@
                                 <div class="form-group">
                                     <label for="category"><strong>Categoria</strong></label>
                                     <select v-model="news.category" class="form-control" name="category" id="category">
-                                        <option :value="news.category" v-for="sp in systemProfile">{{ sp.profile }}</option>
+                                        <option :value="news.category" v-for="c in categories">{{ c.id }}</option>
                                     </select>
                                     <span class="error">{{ errors[0] }}</span>
                                 </div>
@@ -63,8 +63,8 @@
                         <div class="col-md-12">
                             <validation-provider rules="required|email" v-slot="{ errors }">
                                 <div class="form-group col-md-12">
-                                    <label for="descryption"><strong>Descrição da noticia</strong></label>
-                                    <textarea rows="10" v-model="news.descryption" :class="errors[0] ? 'error' : ''" id="descryption" name="descryption" class="form-control" placeholder="Digite a descrição da notícia"></textarea>
+                                    <label for="description"><strong>Descrição da noticia</strong></label>
+                                    <textarea rows="10" v-model="news.description" :class="errors[0] ? 'error' : ''" id="description" name="description" class="form-control" placeholder="Digite a descrição da notícia"></textarea>
                                     <span class="error">{{ errors[0] }}</span>
                                 </div>
                             </validation-provider>
@@ -96,7 +96,7 @@
                 image: {},
                 id: ''
             },
-            systemProfile: {},
+            categories: {},
             errors: {}
         }),
         methods: {
@@ -108,9 +108,9 @@
                 }).catch(errors => console.log(errors));
             },
             getAllSystemProfile: function () {
-                axios.get('/api/system/profile/').then(resp => {
+                axios.get('/api/admin/news/categories').then(resp => {
                     if (resp.status === 200) {
-                        this.systemProfile = resp.data.results;
+                        this.categories = resp.data.results;
                     }
                 }).catch(errors => console.log(errors));
             },
@@ -138,7 +138,7 @@
 
                 axios({
                     method: 'post',
-                    url: this.news.id ? '/api/user/' + this.users.id + '?_method=PUT' : '/api/user/',
+                    url: this.news.id ? '/api/admin/news/' + this.users.id + '?_method=PUT' : '/api/admin/news/',
                     data: bodyFormData,
                     headers: {'Content-Type': 'multipart/form-data' }
                 }).then(function (resp) {

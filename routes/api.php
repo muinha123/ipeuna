@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\SystemProfileController;
 use App\Http\Controllers\Admin\UserController;
@@ -46,6 +47,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('system-profile/{id}', [SystemProfileController::class, 'get'])->name('admin.system.profile.get');
         Route::put('system-profile/{id}', [SystemProfileController::class, 'update'])->name('admin.system.profile.update');
         Route::delete('system-profile/{id}', [SystemProfileController::class, 'delete'])->name('admin.system.profile.delete');
+
+        // news
+        Route::group(['prefix' => 'news'], function () {
+            Route::post('', [NewsController::class, 'create'])->name('admin.news.create');
+        });
     });
 
 });
